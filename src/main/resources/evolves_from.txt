@@ -1,0 +1,13 @@
+BASIC
+Vulpix
+70
+FIRE
+-
+1/Smash Kick/10
+WATER
+-
+1
+Fusion Strike
+E
+-
+29
