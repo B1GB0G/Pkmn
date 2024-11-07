@@ -1,6 +1,7 @@
 package ru.mirea.pkmn.sizovaa;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.mirea.pkmn.AttackSkill;
 import ru.mirea.pkmn.Card;
 import ru.mirea.pkmn.sizovaa.web.http.PkmnHttpClient;
@@ -63,7 +64,7 @@ public class PkmnApplication {
                     for (JsonNode attack : crd.get("attacks")) {
                         // Извлекаем поле "text"
                         String newDescription = attack.get("text").asText();
-                        System.out.println(newDescription);
+                        //System.out.println(newDescription);
                         String targetName = attack.get("name").asText(); // Название атаки, которую нужно изменить
                         for (AttackSkill skill : icard.getSkills()) {
                             if (skill.getName().equals(targetName)) {
@@ -75,12 +76,25 @@ public class PkmnApplication {
                 }
             }
         }
-        System.out.println(icard);
+        //System.out.println(icard);
 
         DatabaseServiceImpl dbs = new DatabaseServiceImpl();
         dbs.saveCardToDatabase(icard);
         Card dcard = dbs.getCardFromDatabase(icard.getName());
-        System.out.println(dcard.toString());
+        //System.out.println(dcard.toString());
+
+        try {
+            // Создаем ObjectMapper для преобразования объекта в JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            // Преобразуем объект в строку JSON
+            String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dcard);
+
+            // Выводим JSON строку
+            System.out.println(jsonString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
